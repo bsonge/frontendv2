@@ -10,9 +10,10 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import { Navbar, Nav, NavItem, FormGroup, FormControl, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
+import { makeSelectLocation } from 'containers/App/selectors';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -28,16 +29,19 @@ export class NavBar extends React.Component { // eslint-disable-line react/prefe
   }
 
   render() {
-    const routes = [];
-    this.props.routes.forEach((elm, idx) =>
-      routes.push(
-        <LinkContainer to={`/${elm}`} key={idx.toString()}>
-          <NavItem key={idx.toString()}>
-            <FormattedMessage id={idx.toString()} defaultMessage={elm} />
-          </NavItem>
-        </LinkContainer>
-      )
-    );
+    const contents = [];
+    const isSearch = this.props.location.pathname === '/search';
+    if (!isSearch) {
+      this.props.routes.forEach((elm, idx) =>
+        contents.push(
+          <LinkContainer to={`/${elm}`} key={idx.toString()}>
+            <NavItem key={idx.toString()}>
+              <FormattedMessage id={idx.toString()} defaultMessage={elm} />
+            </NavItem>
+          </LinkContainer>
+        )
+      );
+    }
 
     return (
       <Navbar inverse collapseOnSelect fixedTop onSelect={this.navigate}>
@@ -50,9 +54,22 @@ export class NavBar extends React.Component { // eslint-disable-line react/prefe
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
-          <Nav>
-            {routes}
-          </Nav>
+          {
+            isSearch ?
+              (
+                <Navbar.Form pullLeft key={1}>
+                  <FormGroup>
+                    <FormControl type="text" placeholder="Search" />
+                  </FormGroup>{' '}
+                  <Button type="submit">Submit</Button>
+                </Navbar.Form>
+              ) :
+              (
+                <Nav>
+                  { contents }
+                </Nav>
+              )
+          }
           <Nav bsStyle="pills" pullRight>
             {
               this.props.loggedIn ?
@@ -78,11 +95,15 @@ NavBar.propTypes = {
   loggedIn: PropTypes.bool.isRequired,
   routes: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   loggedIn: makeSelectLoggedIn(),
   routes: makeSelectRoutes(),
+  location: makeSelectLocation(),
 });
 
 function mapDispatchToProps(dispatch) {
