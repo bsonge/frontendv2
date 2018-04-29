@@ -7,8 +7,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
 
 class ToggleView extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props, context) {
@@ -21,10 +19,13 @@ class ToggleView extends React.Component { // eslint-disable-line react/prefer-s
     this.props.handler(e);
   }
   render() {
+    const options = this.props.options.map((value, index) =>
+      <ToggleButton key={index.toString()} value={value.value}>{value.label}</ToggleButton>
+    );
     return (
       <div>
         <ToggleButtonGroup type="radio" name="options" defaultValue="list" onChange={this.handleChange}>
-          <ToggleButton value="list"><FormattedMessage {...messages.list} /></ToggleButton> <ToggleButton value="table"><FormattedMessage {...messages.table} /></ToggleButton>
+          { options }
         </ToggleButtonGroup>
       </div>
     );
@@ -32,6 +33,7 @@ class ToggleView extends React.Component { // eslint-disable-line react/prefer-s
 }
 
 ToggleView.propTypes = {
+  options: PropTypes.array.isRequired,
   handler: PropTypes.func.isRequired,
 };
 
