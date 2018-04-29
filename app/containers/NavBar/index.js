@@ -87,16 +87,14 @@ export class NavBar extends React.Component { // eslint-disable-line react/prefe
           {
             isSearch ?
               (
-                <Nav>
-                  <Navbar.Form pullLeft key={1}>
-                    <form onSubmit={(evt) => { evt.preventDefault(); this.submit(); }} >
-                      <FormGroup>
-                        <FormControl type="text" placeholder="Search" inputRef={(ref) => { this.search = ref; }} />{' '}
-                        <Button type="submit">Submit</Button>
-                      </FormGroup>
-                    </form>
-                  </Navbar.Form>
-                </Nav>
+                <Navbar.Form pullLeft key={1}>
+                  <form onSubmit={(evt) => { evt.preventDefault(); this.submit(); }} >
+                    <FormGroup>
+                      <FormControl type="text" placeholder="Search" inputRef={(ref) => { this.search = ref; }} />{' '}
+                      <Button type="submit">Submit</Button>
+                    </FormGroup>
+                  </form>
+                </Navbar.Form>
               ) :
               (
                 <Nav>
