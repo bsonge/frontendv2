@@ -46,7 +46,11 @@ class Description extends React.PureComponent { // eslint-disable-line react/pre
 }
 
 Description.propTypes = {
-  text: PropType.object.isRequired,
+  text: PropType.shape({
+    short: PropType.string,
+    long: PropType.string,
+    header: PropType.string,
+  }).isRequired,
   // borderless: PropType.bool,
 };
 
