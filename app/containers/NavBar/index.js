@@ -10,8 +10,11 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
+import { goBack } from 'react-router-redux';
 import { Navbar, Nav, NavItem, FormGroup, FormControl, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import arrowLeft from '@fortawesome/fontawesome-free-solid/faArrowLeft';
 import { Link } from 'react-router-dom';
 import { makeSelectLocation } from 'containers/App/selectors';
 
@@ -23,6 +26,11 @@ import saga from './saga';
 import messages from './messages';
 import { logout } from './actions';
 
+
+/**
+ * This will act as the nav bar that will handle the global data
+ * It will transform when on the search route to show a search bar
+ */
 export class NavBar extends React.Component { // eslint-disable-line react/prefer-stateless-function
   logout() {
     this.props.dispatch(logout());
@@ -36,7 +44,7 @@ export class NavBar extends React.Component { // eslint-disable-line react/prefe
         contents.push(
           <LinkContainer to={`/${elm}`} key={idx.toString()}>
             <NavItem key={idx.toString()}>
-              <FormattedMessage id={idx.toString()} defaultMessage={elm} />
+              <FormattedMessage inverse id={idx.toString()} defaultMessage={elm} />
             </NavItem>
           </LinkContainer>
         )
@@ -45,24 +53,34 @@ export class NavBar extends React.Component { // eslint-disable-line react/prefe
 
     return (
       <Navbar inverse collapseOnSelect fixedTop onSelect={this.navigate}>
-        <Navbar.Header >
-          <Navbar.Brand>
-            <Link to="/">
-              <FormattedMessage {...messages.siteTitle} />
-            </Link>
-          </Navbar.Brand>
+        <Navbar.Header>
+          {
+            isSearch ?
+              (
+                <FontAwesomeIcon icon={arrowLeft} size="3x" color="white" onClick={() => this.props.dispatch(goBack())} />
+              ) :
+              (
+                <Navbar.Brand>
+                  <Link to="/">
+                    <FormattedMessage {...messages.siteTitle} />
+                  </Link>
+                </Navbar.Brand>
+              )
+          }
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
           {
             isSearch ?
               (
-                <Navbar.Form pullLeft key={1}>
-                  <FormGroup>
-                    <FormControl type="text" placeholder="Search" />
-                  </FormGroup>{' '}
-                  <Button type="submit">Submit</Button>
-                </Navbar.Form>
+                <Nav>
+                  <Navbar.Form pullLeft key={1}>
+                    <FormGroup>
+                      <FormControl type="text" placeholder="Search" />
+                    </FormGroup>{' '}
+                    <Button type="submit">Submit</Button>
+                  </Navbar.Form>
+                </Nav>
               ) :
               (
                 <Nav>
@@ -70,7 +88,7 @@ export class NavBar extends React.Component { // eslint-disable-line react/prefe
                 </Nav>
               )
           }
-          <Nav bsStyle="pills" pullRight>
+          <Nav pullRight>
             {
               this.props.loggedIn ?
                 <LinkContainer to="/">

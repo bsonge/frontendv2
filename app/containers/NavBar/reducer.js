@@ -13,7 +13,7 @@ import {
 } from './constants';
 
 const initialState = fromJS({
-  prymaryRoutes: ['about', 'help'],
+  prymaryRoutes: ['about', 'help', 'search'],
   user: {
     loggedIn: false,
     role: '',
