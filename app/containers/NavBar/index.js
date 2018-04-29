@@ -17,6 +17,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import arrowLeft from '@fortawesome/fontawesome-free-solid/faArrowLeft';
 import { Link } from 'react-router-dom';
 import { makeSelectLocation } from 'containers/App/selectors';
+import { basicSearch } from 'containers/SearchPage/actions';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -32,8 +33,20 @@ import { logout } from './actions';
  * It will transform when on the search route to show a search bar
  */
 export class NavBar extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
+    this.search = null;
+    this.submit = this.submit.bind(this);
+  }
+
   logout() {
     this.props.dispatch(logout());
+  }
+
+  submit() {
+    if (this.search !== null) {
+      this.props.dispatch(basicSearch(this.search.value));
+    }
   }
 
   render() {
@@ -73,14 +86,14 @@ export class NavBar extends React.Component { // eslint-disable-line react/prefe
           {
             isSearch ?
               (
-                <Nav>
-                  <Navbar.Form pullLeft key={1}>
+                <Navbar.Form pullLeft key={1}>
+                  <form onSubmit={(evt) => { evt.preventDefault(); this.submit(); }} >
                     <FormGroup>
-                      <FormControl type="text" placeholder="Search" />
-                    </FormGroup>{' '}
-                    <Button type="submit">Submit</Button>
-                  </Navbar.Form>
-                </Nav>
+                      <FormControl type="text" placeholder="Search" inputRef={(ref) => { this.search = ref; }} />{' '}
+                      <Button type="submit">Submit</Button>
+                    </FormGroup>
+                  </form>
+                </Navbar.Form>
               ) :
               (
                 <Nav>
