@@ -10,7 +10,12 @@ const selectSearchPageDomain = (state) => state.get('searchPage');
  */
 const makeSelectSearchResults = () => createSelector(
   selectSearchPageDomain,
-  (substate) => substate.get('searchResults')
+  (substate) => substate.get('searchResults').toJS()
+);
+
+const makeSelectSearchType = () => createSelector(
+  selectSearchPageDomain,
+  (substate) => substate.get('searchType')
 );
 
 /**
@@ -26,4 +31,5 @@ export default makeSelectSearchPage;
 export {
   selectSearchPageDomain,
   makeSelectSearchResults,
+  makeSelectSearchType,
 };
