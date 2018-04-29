@@ -12,7 +12,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 // import ItemTable from 'components/ItemTable';
-import Description from 'components/Description';
+// import Description from 'components/Description';
 
 import messages from './messages';
 
@@ -28,10 +28,6 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
         <h1>
           <FormattedMessage {...messages.header} />
         </h1>
-        <Description text={{ long: this.thing }} />
-        <Description text={{ short: 'Hi, mom!' }} />
-        <Description text={{ short: 'Hi, mom!', long: this.thing }} />
-        <Description text={{ short: 'Hi, mom!', long: this.thing, header: 'What is CheMOA?' }} />
       </div>
     );
   }
