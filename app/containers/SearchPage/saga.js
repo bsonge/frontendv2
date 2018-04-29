@@ -14,7 +14,7 @@ export function* basicSearch(action) {
   try {
     const data = yield call(request, requestUrl, options);
     if (data.success) {
-      yield put(searchResults(data.payload));
+      yield put(searchResults(data.payload, 'basic'));
     } else {
       throw new Error(data.err);
     }
@@ -32,7 +32,7 @@ export function* advancedSearch(action) {
   try {
     const data = yield call(request, requestUrl, options);
     if (data.success) {
-      yield put(searchResults(data.payload));
+      yield put(searchResults(data.payload, action.model));
     } else {
       throw new Error(data.err);
     }
