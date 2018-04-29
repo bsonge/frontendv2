@@ -44,7 +44,7 @@ export class NavBar extends React.Component { // eslint-disable-line react/prefe
         contents.push(
           <LinkContainer to={`/${elm}`} key={idx.toString()}>
             <NavItem key={idx.toString()}>
-              <FormattedMessage inverse id={idx.toString()} defaultMessage={elm} />
+              <FormattedMessage id={idx.toString()} defaultMessage={elm} />
             </NavItem>
           </LinkContainer>
         )
