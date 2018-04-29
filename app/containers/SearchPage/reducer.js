@@ -13,6 +13,7 @@ import {
 
 const initialState = fromJS({
   searchResults: {},
+  searchType: '',
   err: {
     errored: false,
     msg: '',
@@ -30,7 +31,8 @@ function searchPageReducer(state = initialState, action) {
     case SEARCH_RESULTS:
       return state
         .set('searchResults', fromJS(action.payload))
-        .setIn(['err', 'errored'], false);
+        .setIn(['err', 'errored'], false)
+        .set('searchType', action.searchType);
     default:
       return state;
   }

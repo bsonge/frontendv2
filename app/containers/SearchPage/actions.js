@@ -40,9 +40,10 @@ export function errorSearch(err) {
   };
 }
 
-export function searchResults(payload) {
+export function searchResults(payload, searchType) {
   return {
     type: SEARCH_RESULTS,
     payload,
+    searchType,
   };
 }
