@@ -45,7 +45,6 @@ export class NavBar extends React.Component { // eslint-disable-line react/prefe
 
   submit() {
     if (this.search !== null) {
-      console.log(this.search.value);
       this.props.dispatch(basicSearch(this.search.value));
     }
   }
