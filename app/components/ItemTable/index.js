@@ -1,16 +1,13 @@
 /**
 *
-* ItemTable
+* ItemTable: Takes in an array of objects and displays them as a table
 *
 */
 
 import React from 'react';
-// import styled from 'styled-components';
 
-// import { FormattedMessage } from 'react-intl';
 import { Table } from 'react-bootstrap';
 import PropType from 'prop-types';
-// import messages from './messages';
 
 class ItemTable extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -24,7 +21,7 @@ class ItemTable extends React.Component { // eslint-disable-line react/prefer-st
   }
   render() {
     return (
-      <Table>
+      <Table striped bordered condensed hover responsive>
         <thead>
           <tr>
             {this.header}
