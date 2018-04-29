@@ -12,8 +12,10 @@ class LoginCard extends React.Component { // eslint-disable-line react/prefer-st
   constructor(props) {
     super(props);
     this.results = {};
+    this.confirm = null;
     this.submit = this.submit.bind(this);
     this.changeForm = this.changeForm.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.state = {
       toggle: 'Register',
       current: 'Login',
@@ -24,6 +26,15 @@ class LoginCard extends React.Component { // eslint-disable-line react/prefer-st
       this.setState({ toggle: 'Login', current: 'Register' });
     } else {
       this.setState({ toggle: 'Register', current: 'Login' });
+    }
+  }
+  handleChange() {
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirmPassword');
+    if (password.value !== confirmPassword.value) {
+      confirmPassword.setCustomValidity("Passwords Don't Match");
+    } else {
+      confirmPassword.setCustomValidity('');
     }
   }
   submit(refs) {
@@ -40,25 +51,26 @@ class LoginCard extends React.Component { // eslint-disable-line react/prefer-st
     this.props.handler(formType, formResults);
   }
   render() {
-    // map the ref
     const loginForm = (
       <FormGroup>
         <ControlLabel>Username</ControlLabel>
-        <FormControl type="email" name="username" placeholder="example@example.com" inputRef={(ref) => { this.results.username = ref; }} />
+        <FormControl type="email" name="username" placeholder="example@example.com" inputRef={(ref) => { this.results.username = ref; }} required />
         <ControlLabel>Password</ControlLabel>
-        <FormControl type="password" name="password" placeholder="**********" inputRef={(ref) => { this.results.password = ref; }} />
+        <FormControl type="password" name="password" placeholder="**********" inputRef={(ref) => { this.results.password = ref; }} required />
       </FormGroup>);
 
     const registrationForm = (
       <FormGroup>
         <ControlLabel>Username</ControlLabel>
-        <FormControl type="email" name="username" placeholder="example@example.com" inputRef={(ref) => { this.results.username = ref; }} />
+        <FormControl type="email" name="username" placeholder="example@example.com" inputRef={(ref) => { this.results.username = ref; }} required />
         <ControlLabel>Password</ControlLabel>
-        <FormControl type="password" name="password" placeholder="**********" inputRef={(ref) => { this.results.password = ref; }} />
+        <FormControl type="password" id="password" name="password" placeholder="**********" inputRef={(ref) => { this.results.password = ref; }} required />
+        <ControlLabel>Confirm Password</ControlLabel>
+        <FormControl onChange={this.handleChange} id="confirmPassword" type="password" name="password" placeholder="**********" inputRef={(ref) => { this.confirm = ref; }} required />
         <ControlLabel>First Name</ControlLabel>
-        <FormControl type="text" name="firstName" placeholder="John" inputRef={(ref) => { this.results.firstName = ref; }} />
+        <FormControl type="text" name="firstName" placeholder="John" inputRef={(ref) => { this.results.firstName = ref; }} required />
         <ControlLabel>LastName</ControlLabel>
-        <FormControl type="text" name="lastName" placeholder="Doe" inputRef={(ref) => { this.results.lastName = ref; }} />
+        <FormControl type="text" name="lastName" placeholder="Doe" inputRef={(ref) => { this.results.lastName = ref; }} required />
       </FormGroup>);
 
     const form = (this.state.toggle === 'Register') ? loginForm : registrationForm;
