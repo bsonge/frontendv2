@@ -1,16 +1,18 @@
 /**
 *
-* Description
-* Parameters;
+* Description: This displays an inputted message.  If you put in a short and long message, it will display
+* the short by default and a more button that switches it to the long one.
+*
+* Parameters: Name = a string that identifies the formatted messages
+*             Text = an array that can contain one or more of the following: short, long, and header
+*
 */
 
 import React from 'react';
-// import styled from 'styled-components';
 
 import PropType from 'prop-types';
 import { Panel, Button } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
-// import messages from './messages';
 
 class Description extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -18,15 +20,13 @@ class Description extends React.PureComponent { // eslint-disable-line react/pre
     this.state = { expanded: false };
     this.flip = this.flip.bind(this);
   }
-  flip(evt) {
-    evt.preventDefault();
-    // this.expanded = !this.expanded;
+  flip() {
     const old = this.state.expanded;
     this.setState({ expanded: !old });
   }
   render() {
     const { short, long, header } = this.props.text;
-    const button = <Button bsStyle="link" onClick={(evt) => { this.flip(evt); }}>{this.state.expanded ? 'Less' : 'More' }</Button>;
+    const button = <Button bsStyle="link" onClick={() => { this.flip(); }}>{this.state.expanded ? 'Less' : 'More' }</Button>;
     const body = () => {
       if (short && long) { // if both are defined
         return (<Panel.Body><FormattedMessage id={`app.components.Description.${this.props.name}B`} defaultMessage={this.state.expanded ? long : short} />{button}</Panel.Body>);
@@ -35,7 +35,6 @@ class Description extends React.PureComponent { // eslint-disable-line react/pre
       }
       return (<Panel.Body><FormattedMessage id={`app.components.Description.${this.props.name}S`} defaultMessage={short} /></Panel.Body>);
     };
-    // const toggleable = short && long;
     return (
       <Panel>
         {header ? <Panel.Heading><FormattedMessage id={`app.components.Description.${this.props.name}H`} defaultMessage={header} /></Panel.Heading> : ''}
@@ -52,7 +51,6 @@ Description.propTypes = {
     header: PropType.string,
   }).isRequired,
   name: PropType.string.isRequried,
-  // borderless: PropType.bool,
 };
 
 export default Description;
