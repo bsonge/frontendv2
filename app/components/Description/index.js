@@ -1,7 +1,7 @@
 /**
 *
 * Description
-* Pass in text object with short and long descriptions as values {short:'', long:''}
+* Parameters;
 */
 
 import React from 'react';
@@ -9,7 +9,7 @@ import React from 'react';
 
 import PropType from 'prop-types';
 import { Panel, Button } from 'react-bootstrap';
-// import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 // import messages from './messages';
 
 class Description extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
@@ -29,16 +29,16 @@ class Description extends React.PureComponent { // eslint-disable-line react/pre
     const button = <Button bsStyle="link" onClick={(evt) => { this.flip(evt); }}>{this.state.expanded ? 'Less' : 'More' }</Button>;
     const body = () => {
       if (short && long) { // if both are defined
-        return (<Panel.Body>{this.state.expanded ? long : short }{button}</Panel.Body>);
+        return (<Panel.Body><FormattedMessage id={`app.components.Description.${this.props.name}B`} defaultMessage={this.state.expanded ? long : short} />{button}</Panel.Body>);
       } else if (!short) {
-        return (<Panel.Body>{ long }</Panel.Body>);
+        return (<Panel.Body><FormattedMessage id={`app.components.Description.${this.props.name}L`} defaultMessage={long} /></Panel.Body>);
       }
-      return (<Panel.Body>{ short }</Panel.Body>);
+      return (<Panel.Body><FormattedMessage id={`app.components.Description.${this.props.name}S`} defaultMessage={short} /></Panel.Body>);
     };
     // const toggleable = short && long;
     return (
       <Panel>
-        {header ? <Panel.Heading>{header}</Panel.Heading> : ''}
+        {header ? <Panel.Heading><FormattedMessage id={`app.components.Description.${this.props.name}H`} defaultMessage={header} /></Panel.Heading> : ''}
         {body()}
       </Panel>
     );
@@ -51,6 +51,7 @@ Description.propTypes = {
     long: PropType.string,
     header: PropType.string,
   }).isRequired,
+  name: PropType.string.isRequried,
   // borderless: PropType.bool,
 };
 
