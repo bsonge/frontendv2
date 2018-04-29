@@ -10,12 +10,4 @@ export default defineMessages({
     id: 'app.components.ToggleView.header',
     defaultMessage: 'This is the ToggleView component !',
   },
-  list: {
-    id: 'app.components.ToggleView.header',
-    defaultMessage: 'List',
-  },
-  table: {
-    id: 'app.components.ToggleView.header',
-    defaultMessage: 'Table',
-  },
 });
