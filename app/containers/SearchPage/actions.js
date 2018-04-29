@@ -9,6 +9,7 @@ import {
   BASIC_SEARCH,
   ERROR_SEARCH,
   SEARCH_RESULTS,
+  ADVANCED_SEARCH,
 } from './constants';
 
 export function defaultAction() {
@@ -21,6 +22,14 @@ export function basicSearch(query) {
   return {
     type: BASIC_SEARCH,
     query,
+  };
+}
+
+export function advancedSearch(modelName, serializedQuery) {
+  return {
+    type: ADVANCED_SEARCH,
+    model: modelName,
+    query: serializedQuery,
   };
 }
 
