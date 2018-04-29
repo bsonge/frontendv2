@@ -29,8 +29,8 @@ class LoginCard extends React.Component { // eslint-disable-line react/prefer-st
     }
   }
   handleChange() {
-    const password = document.getElementById('password');
-    const confirmPassword = document.getElementById('confirmPassword');
+    const password = this.results.password.value;
+    const confirmPassword = this.confirm;
     if (password.value !== confirmPassword.value) {
       confirmPassword.setCustomValidity("Passwords Don't Match");
     } else {
