@@ -10,14 +10,13 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { goBack } from 'react-router-redux';
+import { goBack, push } from 'react-router-redux';
 import { Navbar, Nav, NavItem, FormGroup, FormControl, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import arrowLeft from '@fortawesome/fontawesome-free-solid/faArrowLeft';
 import { Link } from 'react-router-dom';
 import { makeSelectLocation } from 'containers/App/selectors';
-import { basicSearch } from 'containers/SearchPage/actions';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -37,6 +36,24 @@ export class NavBar extends React.Component { // eslint-disable-line react/prefe
     super(props);
     this.search = null;
     this.submit = this.submit.bind(this);
+    this.onTextEnter = this.onTextEnter.bind(this);
+
+    let searchQuery = this.props.location.search;
+    // if the search is set it will be set with ?q={somthing}
+    // to make quick and easy simply removing ?q=
+    if (searchQuery.length > 3) {
+      searchQuery = searchQuery.slice(3);
+    }
+
+    this.state = {
+      input: searchQuery,
+    };
+  }
+
+  onTextEnter() {
+    this.setState({
+      input: this.search.value,
+    });
   }
 
   logout() {
@@ -45,7 +62,7 @@ export class NavBar extends React.Component { // eslint-disable-line react/prefe
 
   submit() {
     if (this.search !== null) {
-      this.props.dispatch(basicSearch(this.search.value));
+      this.props.dispatch(push(`/search?q=${this.search.value}`));
     }
   }
 
@@ -89,7 +106,7 @@ export class NavBar extends React.Component { // eslint-disable-line react/prefe
                 <Navbar.Form pullLeft key={1}>
                   <form onSubmit={(evt) => { evt.preventDefault(); this.submit(); }} >
                     <FormGroup>
-                      <FormControl type="text" placeholder="Search" inputRef={(ref) => { this.search = ref; }} />{' '}
+                      <FormControl value={this.state.input} onChange={this.onTextEnter} type="text" placeholder="Search" inputRef={(ref) => { this.search = ref; }} />{' '}
                       <Button type="submit">Submit</Button>
                     </FormGroup>
                   </form>
@@ -128,6 +145,7 @@ NavBar.propTypes = {
   dispatch: PropTypes.func.isRequired,
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired,
+    search: PropTypes.string.isRequired,
   }).isRequired,
 };
 

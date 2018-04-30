@@ -16,7 +16,7 @@ import ItemTable from 'components/ItemTable';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import makeSelectSearchPage, { makeSelectSearchResults, makeSelectSearchType } from './selectors';
+import makeSelectSearchPage, { makeSelectSearchResults, makeSelectSearchType, makeSelectSearchedQuery } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
@@ -92,22 +92,36 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
     }
 
     return (
-      <div>
-        <Col xs={10} xsOffset={1}>
-          <Helmet>
-            <title>SearchPage</title>
-            <meta name="description" content="Description of SearchPage" />
-          </Helmet>
-          {
-            (tabs.length !== 0) ?
-            (<Nav bsStyle="tabs" onSelect={(k) => this.handleSelect(k)}>
-              {tabs}
-            </Nav>) : ''
-          }
-          <Panel>
-            {itemTable}
-          </Panel>
-        </Col>
+      <div style={{ marginTop: '50px' }}>
+        <Row>
+          <Col xs={10} xsOffset={1}>
+            <Panel bsStyle="info">
+              <Panel.Body>
+                <FormattedMessage
+                  id="app.components.SearchPage.querySearched"
+                  defaultMessage={`Showing results for search: ${this.props.searchedQuery}`}
+                />
+              </Panel.Body>
+            </Panel>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={10} xsOffset={1}>
+            <Helmet>
+              <title>SearchPage</title>
+              <meta name="description" content="Description of SearchPage" />
+            </Helmet>
+            {
+              (tabs.length !== 0) ?
+              (<Nav bsStyle="tabs" onSelect={(k) => this.handleSelect(k)}>
+                {tabs}
+              </Nav>) : ''
+            }
+            <Panel>
+              {itemTable}
+            </Panel>
+          </Col>
+        </Row>
       </div>
     );
   }
@@ -119,12 +133,14 @@ SearchPage.propTypes = {
     PropTypes.array,
   ]).isRequired,
   searchType: PropTypes.string.isRequired,
+  searchedQuery: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   searchpage: makeSelectSearchPage(),
   results: makeSelectSearchResults(),
   searchType: makeSelectSearchType(),
+  searchedQuery: makeSelectSearchedQuery(),
 });
 
 function mapDispatchToProps(dispatch) {

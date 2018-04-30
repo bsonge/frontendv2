@@ -14,7 +14,7 @@ export function* basicSearch(action) {
   try {
     const data = yield call(request, requestUrl, options);
     if (data.success) {
-      yield put(searchResults(data.payload, 'basic'));
+      yield put(searchResults(data.payload, 'basic', action.query));
     } else {
       throw new Error(data.err);
     }
