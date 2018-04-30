@@ -18,6 +18,11 @@ const makeSelectSearchType = () => createSelector(
   (substate) => substate.get('searchType')
 );
 
+const makeSelectSearchedQuery = () => createSelector(
+  selectSearchPageDomain,
+  (substate) => substate.get('searchedQuery')
+);
+
 /**
  * Default selector used by SearchPage
  */
@@ -32,4 +37,5 @@ export {
   selectSearchPageDomain,
   makeSelectSearchResults,
   makeSelectSearchType,
+  makeSelectSearchedQuery,
 };

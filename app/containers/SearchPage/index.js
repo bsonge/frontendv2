@@ -16,16 +16,22 @@ import ItemTable from 'components/ItemTable';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import makeSelectSearchPage, { makeSelectSearchResults, makeSelectSearchType } from './selectors';
+import makeSelectSearchPage, { makeSelectSearchResults, makeSelectSearchType, makeSelectSearchedQuery } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
+import { basicSearch } from './actions';
 
 export class SearchPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
     this.tableNames = ['No Results for Current Query'];
     this.handleSelect = this.handleSelect.bind(this);
+    let query = props.location.search;
+    if (query.length > 3) {
+      query = query.slice(3);
+      props.dispatch(basicSearch(query));
+    }
 
     this.state = {
       currentTable: 0,
@@ -92,39 +98,59 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
     }
 
     return (
-      <div>
-        <Col xs={10} xsOffset={1}>
-          <Helmet>
-            <title>SearchPage</title>
-            <meta name="description" content="Description of SearchPage" />
-          </Helmet>
-          {
-            (tabs.length !== 0) ?
-            (<Nav bsStyle="tabs" onSelect={(k) => this.handleSelect(k)}>
-              {tabs}
-            </Nav>) : ''
-          }
-          <Panel>
-            {itemTable}
-          </Panel>
-        </Col>
+      <div style={{ marginTop: '50px' }}>
+        <Row>
+          <Col xs={10} xsOffset={1}>
+            <Panel bsStyle="info">
+              <Panel.Body>
+                <FormattedMessage
+                  id="app.components.SearchPage.querySearched"
+                  defaultMessage={`Showing results for search: ${this.props.searchedQuery}`}
+                />
+              </Panel.Body>
+            </Panel>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={10} xsOffset={1}>
+            <Helmet>
+              <title>SearchPage</title>
+              <meta name="description" content="Description of SearchPage" />
+            </Helmet>
+            {
+              (tabs.length !== 0) ?
+              (<Nav bsStyle="tabs" onSelect={(k) => this.handleSelect(k)}>
+                {tabs}
+              </Nav>) : ''
+            }
+            <Panel>
+              {itemTable}
+            </Panel>
+          </Col>
+        </Row>
       </div>
     );
   }
 }
 
 SearchPage.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   results: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.array,
   ]).isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
+  }),
   searchType: PropTypes.string.isRequired,
+  searchedQuery: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   searchpage: makeSelectSearchPage(),
   results: makeSelectSearchResults(),
   searchType: makeSelectSearchType(),
+  searchedQuery: makeSelectSearchedQuery(),
 });
 
 function mapDispatchToProps(dispatch) {
