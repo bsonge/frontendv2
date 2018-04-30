@@ -20,12 +20,18 @@ import makeSelectSearchPage, { makeSelectSearchResults, makeSelectSearchType, ma
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
+import { basicSearch } from './actions';
 
 export class SearchPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
     this.tableNames = ['No Results for Current Query'];
     this.handleSelect = this.handleSelect.bind(this);
+    let query = props.location.search;
+    if (query.length > 3) {
+      query = query.slice(3);
+      props.dispatch(basicSearch(query));
+    }
 
     this.state = {
       currentTable: 0,
@@ -128,10 +134,14 @@ export class SearchPage extends React.Component { // eslint-disable-line react/p
 }
 
 SearchPage.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   results: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.array,
   ]).isRequired,
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
+  }),
   searchType: PropTypes.string.isRequired,
   searchedQuery: PropTypes.string.isRequired,
 };
