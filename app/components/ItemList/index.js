@@ -12,6 +12,7 @@ import PropType from 'prop-types';
 class ItemList extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props); // headervals len should = todisplay
+
     this.headerVals = Object.keys(this.props.data[0]);
     this.header = this.headerVals.map((val) => <th>{val}</th>);
     this.toDisplay = this.props.data.map((obj) => (
