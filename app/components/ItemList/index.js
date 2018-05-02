@@ -67,7 +67,7 @@ class ItemList extends React.Component { // eslint-disable-line react/prefer-sta
   }
   render() {
     return (
-      <Table striped bordered condensed hover responsive>
+      <Table striped bordered condensed hover style={{ maxWidth: '1200px', margin: 'auto' }}>
         {this.toDisplay}
       </Table>
     );
