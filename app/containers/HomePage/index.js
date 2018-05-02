@@ -16,6 +16,8 @@ import styled from 'styled-components';
 import logo from 'images/CheMoa_Transparent.png';
 import Description from 'components/Description';
 
+import ItemList from 'components/ItemList';
+
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 import makeSelectHomePage from './selectors';
@@ -65,6 +67,7 @@ export class HomePage extends React.Component { // eslint-disable-line react/pre
             </Col>
           </FormGroup>
         </Form>
+        <ItemList data={[{ key: 'big', ass: 10110110 }, { key: 'real', ass: 12343 }, { key: 'smol', ass: null }]} />
       </div>
     );
   }
