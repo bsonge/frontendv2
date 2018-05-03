@@ -16,7 +16,6 @@ class ItemList extends React.Component { // eslint-disable-line react/prefer-sta
     this.genList = this.genList.bind(this);
     this.genItem = this.genItem.bind(this);
     this.picKeys = [];
-    this.toDisplay = this.genList(this.props.data, this.picKeys);
   }
   genList(dataArray, picKeys) {
     const toRender = [];
@@ -39,7 +38,8 @@ class ItemList extends React.Component { // eslint-disable-line react/prefer-sta
           <Table style={{ padding: 0, margin: 0 }}>
             <tbody>
               <tr>
-                <td style={{ width: '30%' }}><strong>{key}:</strong> {obj[key] || ''}</td>
+                <td style={{ width: '30%' }}><strong>{key}:</strong></td>
+                <td>{obj[key] || ''}</td>
               </tr>
             </tbody>
           </Table>
@@ -65,9 +65,10 @@ class ItemList extends React.Component { // eslint-disable-line react/prefer-sta
     );
   }
   render() {
+    const toDisplay = this.genList(this.props.data, this.picKeys);
     return (
       <Table striped bordered condensed hover style={{ maxWidth: '1200px', margin: 'auto' }}>
-        {this.toDisplay}
+        {toDisplay}
       </Table>
     );
   }
