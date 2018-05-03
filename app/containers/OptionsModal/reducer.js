@@ -26,7 +26,7 @@ function optionsModalReducer(state = initialState, action) {
     case MODEL_DETAIL_RESULTS:
       return state
         .setIn(['err', 'errored'], false)
-        .setIn(['modelDetails', `${action.modelName}`], fromJS(action.payload));
+        .setIn(['modelDetails', `${action.model}`], fromJS(action.payload));
     case MODEL_DETAIL_ERROR:
       return state
         .setIn(['err', 'error'], true)
