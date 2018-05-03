@@ -26,7 +26,7 @@ class Description extends React.PureComponent { // eslint-disable-line react/pre
   }
   render() {
     const { short, long, header } = this.props.text;
-    const button = <Button bsStyle="link" onClick={() => { this.flip(); }}>{this.state.expanded ? 'Less' : 'More' }</Button>;
+    const button = <Button className="pull-right" bsStyle="link" onClick={() => { this.flip(); }}>{this.state.expanded ? 'Less' : 'More' }</Button>;
     const body = () => {
       if (short && long) { // if both are defined
         return (<Panel.Body><FormattedMessage id={`app.components.Description.${this.props.name}B`} defaultMessage={this.state.expanded ? long : short} />{button}</Panel.Body>);
@@ -36,10 +36,10 @@ class Description extends React.PureComponent { // eslint-disable-line react/pre
       return (<Panel.Body><FormattedMessage id={`app.components.Description.${this.props.name}S`} defaultMessage={short} /></Panel.Body>);
     };
     return (
-      <Panel>
+      <div {...this.props.innerStyle}>
         {header ? <Panel.Heading><FormattedMessage id={`app.components.Description.${this.props.name}H`} defaultMessage={header} /></Panel.Heading> : ''}
         {body()}
-      </Panel>
+      </div>
     );
   }
 }
@@ -50,7 +50,8 @@ Description.propTypes = {
     long: PropType.string,
     header: PropType.string,
   }).isRequired,
-  name: PropType.string.isRequried,
+  innerStyle: PropType.object,
+  name: PropType.string.isRequired,
 };
 
 export default Description;
