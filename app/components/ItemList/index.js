@@ -39,8 +39,7 @@ class ItemList extends React.Component { // eslint-disable-line react/prefer-sta
           <Table style={{ padding: 0, margin: 0 }}>
             <tbody>
               <tr>
-                <td style={{ width: '30%' }}><strong>{key}:</strong></td>
-                <td>{obj[key] || ''}</td>
+                <td style={{ width: '30%' }}><strong>{key}:</strong> {obj[key] || ''}</td>
               </tr>
             </tbody>
           </Table>
