@@ -1,7 +1,7 @@
 /**
  * Class to build advanced queries
  */
-class AdvancedQuery {
+export class AdvancedQuery {
 
   /**
    * This will construct the advanced query helper to build an advanced query
@@ -63,4 +63,13 @@ class AdvancedQuery {
 
 }
 
-module.exports = AdvancedQuery;
+export const CompareTypes = {
+  between: 'BETWEEN',
+  lessThan: 'LESSTHAN',
+  greaterThan: 'GREATERTHAN',
+  contains: 'CONTAINS',
+  startsWith: 'STARTSWITH',
+  endsWith: 'ENDSWITH',
+};
+
+export default AdvancedQuery;
